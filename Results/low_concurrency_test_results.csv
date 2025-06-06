@@ -1,0 +1,7 @@
+Metric,With Synchronization,Without Synchronization
+Total Operations,50,50
+Conflict Count,0,26
+Conflict Percentage,0.0,52.0
+Average Response Time (ms),50.6,40.9
+Total Duration (ms),899,855
+Throughput (ops/sec),55.61735261401557,58.47953216374269

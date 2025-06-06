@@ -1,0 +1,63 @@
+@startuml "Cloud Synchronization Simulation Architecture"
+
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam ArrowColor #333333
+skinparam componentStyle rectangle
+
+package "Cloud Containers" {
+  [Container 1] as C1 #1E88E5
+  [Container 2] as C2 #1E88E5
+  [Container 3] as C3 #1E88E5
+  [Container N] as CN #1E88E5
+
+  note bottom of CN
+    Multiple containers
+    represent cloud
+    microservices
+  end note
+}
+
+package "Synchronization Layer" {
+  [Distributed Semaphore] as DS #FBC02D
+
+  note bottom of DS
+    Manages access permits
+    Simulates network latency
+    Enforces concurrency limits
+  end note
+}
+
+package "Shared Resources" {
+  database "Resource 1\n(Database)" as R1 #43A047
+  database "Resource 2\n(File System)" as R2 #43A047
+  [Resource 3\n(Cache)] as R3 #43A047
+  [Resource N] as RN #43A047
+}
+
+' Synchronized access paths
+C1 -[#4527A0]-> DS : acquire()
+C2 -[#4527A0]-> DS : acquire()
+C3 -[#4527A0]-> DS : acquire()
+CN -[#4527A0]-> DS : acquire()
+
+DS -[#4527A0]-> R1 : controlled access
+DS -[#4527A0]-> R2 : controlled access
+DS -[#4527A0]-> R3 : controlled access
+DS -[#4527A0]-> RN : controlled access
+
+' Unsynchronized access paths (dotted lines)
+C1 .[#D32F2F].> R1 : direct access\n(without sync)
+C2 .[#D32F2F].> R2 : direct access\n(without sync)
+C3 .[#D32F2F].> R3 : direct access\n(without sync)
+
+legend right
+  <b>Legend</b>
+  <color:#1E88E5>■</color> Cloud Containers
+  <color:#FBC02D>■</color> Synchronization Layer
+  <color:#43A047>■</color> Shared Resources
+  <color:#4527A0>━━</color> Synchronized Path
+  <color:#D32F2F>┈┈</color> Unsynchronized Path
+endlegend
+
+@enduml
